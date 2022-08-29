@@ -5,7 +5,9 @@ use esp32c3_hal::{clock::ClockControl, pac::Peripherals, prelude::*, timer::Time
 use riscv_rt::entry;
 use rtt_target::{rtt_init};
 use panic_halt as _;
-use core::fmt::Write;
+use defmt::info;
+use defmt_rtt_target as _;
+
 
 #[entry]
 fn main() -> ! {
@@ -13,7 +15,8 @@ fn main() -> ! {
         up: {
             0: {
                 size: 1024
-                name: "Terminal"
+                mode: BlockIfFull
+                name: "defmt"
             }
         }
         down: {
@@ -24,8 +27,7 @@ fn main() -> ! {
         }
     };
 
-    let mut output = channels.up.0;
-    writeln!(output, "Hello, world!").ok();
+    defmt_rtt_target::init(channels.up.0);
 
     let peripherals = Peripherals::take().unwrap();
     let system = peripherals.SYSTEM.split();
@@ -57,7 +59,7 @@ fn main() -> ! {
     loop {
         led.toggle().unwrap();
         delay.delay_ms(500u32);
-        writeln!(output, "{}", counter).ok();
+        info!("output {}", counter);
         counter += 1;
     }
 }

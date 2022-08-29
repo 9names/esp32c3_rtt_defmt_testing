@@ -9,6 +9,8 @@ esp32c3-hal = { package = "esp32c3-hal", git = "https://github.com/esp-rs/esp-ha
 riscv-rt = { version = "0.9", optional = true }
 rtt-target = { version = "0.3.1", features = ["riscv"] }
 panic-halt = "0.2.0"
+defmt-rtt-target = { git = "https://github.com/9names/defmt-rtt-target", branch = "riscv"}
+defmt = "0.3.2"
 
 [features]
 default = ["rt"]
