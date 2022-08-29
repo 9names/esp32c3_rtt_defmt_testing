@@ -1,0 +1,31 @@
+[package]
+name = "esp32c3_rtt_defmt_testing"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
+esp32c3-hal = { package = "esp32c3-hal", git = "https://github.com/esp-rs/esp-hal.git", rev = "6e037b0", features = ["direct-boot"]}
+riscv-rt = { version = "0.9", optional = true }
+rtt-target = { version = "0.3.1", features = ["riscv"] }
+panic-halt = "0.2.0"
+
+[features]
+default = ["rt"]
+rt = ["riscv-rt"]
+
+[profile.release]
+codegen-units = 1
+debug = 2
+debug-assertions = false
+incremental = false
+lto = 'fat'
+opt-level = 3
+overflow-checks = false
+
+[profile.release.build-override]
+codegen-units = 8
+debug = false
+debug-assertions = false
+opt-level = 0
+overflow-checks = false 
