@@ -3,29 +3,13 @@
 
 use esp32c3_hal::{clock::ClockControl, pac::Peripherals, prelude::*, timer::TimerGroup, Rtc, IO, Delay};
 use riscv_rt::entry;
-use rtt_target::{rtt_init};
+use defmt::*;
+use defmt_rtt as _;
 use panic_halt as _;
-use core::fmt::Write;
 
 #[entry]
 fn main() -> ! {
-    let channels = rtt_init! {
-        up: {
-            0: {
-                size: 1024
-                name: "Terminal"
-            }
-        }
-        down: {
-            0: {
-                size: 16
-                name: "Terminal"
-            }
-        }
-    };
-
-    let mut output = channels.up.0;
-    writeln!(output, "Hello, world!").ok();
+    info!("Program start!");
 
     let peripherals = Peripherals::take().unwrap();
     let system = peripherals.SYSTEM.split();
@@ -57,7 +41,7 @@ fn main() -> ! {
     loop {
         led.toggle().unwrap();
         delay.delay_ms(500u32);
-        writeln!(output, "{}", counter).ok();
+        debug!("{}", counter);
         counter += 1;
     }
 }

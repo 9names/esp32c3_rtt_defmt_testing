@@ -1,14 +1,6 @@
 [default.probe]
 protocol = "Jtag"
 speed = 20000
-# If you only have one probe cargo embed will pick automatically
-# Otherwise: add your probe's VID/PID/serial to filter
-
-## rust-dap
-# usb_vid = "6666"
-# usb_pid = "4444"
-# serial = "test"
-
 
 [default.flashing]
 enabled = true
@@ -26,7 +18,7 @@ connect_under_reset = false
 enabled = true
 up_mode = "NoBlockSkip"
 channels = [
-    { up = 0, down = 0, name = "name", up_mode = "NoBlockSkip", format = "String" },
+    { up = 0, down = 0, name = "defmt", up_mode = "NoBlockSkip", format = "Defmt" },
 ]
 timeout = 1000
 show_timestamps = true
